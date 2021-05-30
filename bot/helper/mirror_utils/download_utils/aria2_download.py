@@ -40,7 +40,7 @@ class AriaDownloadHelper(DownloadHelper):
         if ENABLE_FILESIZE_LIMIT:
           if size / 1024 / 1024 / 1024 > MAX_TORRENT_SIZE:
               LOGGER.info(f"Download size Exceeded: {gid}")
-              dl.getListener().onDownloadError(f'File size {get_readable_file_size(size)} larger than Maximum Allowed size {MAX_TORRENT_SIZE}GB')
+              dl.getListener().onDownloadError(f'📀 𝗬𝗼𝘂𝗿 𝗙𝗶𝗹𝗲 𝘀𝗶𝘇𝗲: {get_readable_file_size(size)}\n\n📛 𝗠𝗮𝘅𝗶𝗺𝘂𝗺 𝗠𝗶𝗿𝗿𝗼𝗿 𝗟𝗶𝗺𝗶𝘁: {MAX_TORRENT_SIZE}GB')
               aria2.remove([download])
               return
         update_all_messages()
@@ -66,13 +66,13 @@ class AriaDownloadHelper(DownloadHelper):
     def __onDownloadPause(self, api, gid):
         LOGGER.info(f"onDownloadPause: {gid}")
         dl = getDownloadByGid(gid)
-        dl.getListener().onDownloadError('Download stopped by user!')
+        dl.getListener().onDownloadError('𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝘀𝘁𝗼𝗽𝗽𝗲𝗱 𝗯𝘆 𝘂𝘀𝗲𝗿!')
 
     @new_thread
     def __onDownloadStopped(self, api, gid):
         LOGGER.info(f"onDownloadStop: {gid}")
         dl = getDownloadByGid(gid)
-        if dl: dl.getListener().onDownloadError('Dead torrent!')
+        if dl: dl.getListener().onDownloadError('𝘠𝘰𝘶𝘳 𝘓𝘪𝘯𝘬 𝘪𝘴 𝘋𝘦𝘢𝘥. 𝘗𝘭𝘻 𝘥𝘰𝘯𝘵 𝘮𝘪𝘳𝘳𝘰𝘳 𝘭𝘰𝘸 𝘚𝘌𝘌𝘋𝘚 𝘵𝘰𝘳𝘳𝘦𝘯𝘵')
 
     @new_thread
     def __onDownloadError(self, api, gid):
