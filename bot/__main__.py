@@ -63,7 +63,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
     LOGGER.info('UID: {} - UN: {} - MSG: {}'.format(update.message.chat.id, update.message.chat.username, update.message.text))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         if update.message.chat.type == "private" :
-            sendMessage(f"**Hey I'm Alive 🙂**", context.bot, update)
+            sendMessage(f"<b>Hey I'm Alive 🙂</b>", context.bot, update)
         else :
             update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup)
     else :
