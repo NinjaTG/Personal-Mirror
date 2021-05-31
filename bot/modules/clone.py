@@ -18,7 +18,7 @@ def cloneNode(update,context):
             cc = f'\n\n<b>👤 Uploader: </b>👉 {uname}\n\n▫️#Cloned To Team Drive ✓ \n\n⛔ 𝘿𝙤 𝙣𝙤𝙩 𝙨𝙝𝙖𝙧𝙚 𝙄𝙣𝙙𝙚𝙭 𝙇𝙞𝙣𝙠🙂 \n\n🛡️𝗣𝗼𝘄𝗲𝗿𝗲𝗱 𝗕𝘆: <b>@TGFilmZone</b>'
     if len(args) > 1:
         link = args[1]
-        msg = sendMessage(f"𝘾𝙡𝙤𝙣𝙞𝙣𝙜..𝙬𝙖𝙞𝙩 𝙡𝙞𝙩𝙩𝙡𝙚 𝙗𝙞𝙩..\n\n<b>Link:</b> <code>{link}</code>",context.bot,update)
+        msg = sendMessage(f"𝘾𝙡𝙤𝙣𝙞𝙣𝙜...𝙬𝙖𝙞𝙩 𝙥𝙡𝙯.\n\n<b>Link:</b> <code>{link}</code>",context.bot,update)
         gd = GoogleDriveHelper()
         result, button = gd.clone(link)
         deleteMessage(context.bot,msg)
