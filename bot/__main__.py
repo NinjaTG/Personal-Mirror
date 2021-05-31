@@ -93,12 +93,10 @@ def ping(update, context):
 def log(update, context):
     sendLogFile(context.bot, update)
  
- 
+
 @run_async
-def help(update, context):
-    bot.send_message(update.message.chat_id,
-    reply_to_message_id=update.message.message_id,
-    text="""🤷🤷🤷🤷
+def bot_help(update, context):
+    help_string_adm = f'''
 /{BotCommands.HelpCommand}: To get this message
  
 /{BotCommands.MirrorCommand} [download_url][magnet_link]: Start mirroring the link to Google Drive.
@@ -109,7 +107,7 @@ def help(update, context):
  
 /{BotCommands.CloneCommand}: Copy file/folder to Google Drive
  
-/{BotCommands.CountCommand}: Count files/folders of G-Drive Links
+/{BotCommands.CountCommand}: Count file/folder of Google Drive Links
  
 /{BotCommands.DeleteCommand} [link]: Delete file from Google Drive (Only Owner & Sudo)
  
@@ -149,7 +147,8 @@ def help(update, context):
  
 /weebhelp: Get help for Anime, Manga, and Character module.
  
-/stickerhelp: Get help for Stickers module."""
+/stickerhelp: Get help for Stickers module.
+'''
  
     help_string = f'''
 /{BotCommands.HelpCommand}: To get this message
@@ -186,8 +185,11 @@ def help(update, context):
  
 /stickerhelp: Get help for Stickers module.
 '''
+    if CustomFilters.sudo_user(update) or CustomFilters.owner_filter(update):
+        sendMessage(help_string_adm, context.bot, update)
+    else:
+        sendMessage(help_string, context.bot, update)
  
-
  
 def main():
     fs_utils.start_cleanup()
