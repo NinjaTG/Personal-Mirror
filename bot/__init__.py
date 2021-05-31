@@ -4,41 +4,41 @@ import threading
 import time
 import random
 import string
-
+ 
 import aria2p
 import telegram.ext as tg
 from dotenv import load_dotenv
 from pyrogram import Client
 from telegraph import Telegraph
-
+ 
 import psycopg2
 from psycopg2 import Error
-
+ 
 import socket
 import faulthandler
 faulthandler.enable()
-
+ 
 socket.setdefaulttimeout(600)
-
+ 
 botStartTime = time.time()
 if os.path.exists('log.txt'):
     with open('log.txt', 'r+') as f:
         f.truncate(0)
-
+ 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()],
                     level=logging.INFO)
-
+ 
 LOGGER = logging.getLogger(__name__)
-
+ 
 load_dotenv('config.env')
-
+ 
 Interval = []
-
-
+ 
+ 
 def getConfig(name: str):
     return os.environ[name]
-
+ 
 def mktable():
     try:
         conn = psycopg2.connect(DB_URI)
@@ -50,14 +50,14 @@ def mktable():
     except Error as e:
         LOGGER.error(e)
         exit(1)
-
+ 
 try:
     if bool(getConfig('_____REMOVE_THIS_LINE_____')):
         logging.error('The README.md file there to be read! Exiting now!')
         exit()
 except KeyError:
     pass
-
+ 
 aria2 = aria2p.API(
     aria2p.Client(
         host="http://localhost",
@@ -65,10 +65,10 @@ aria2 = aria2p.API(
         secret="",
     )
 )
-
+ 
 DOWNLOAD_DIR = None
 BOT_TOKEN = None
-
+ 
 download_dict_lock = threading.Lock()
 status_reply_dict_lock = threading.Lock()
 # Key: update.effective_chat.id
@@ -87,13 +87,13 @@ try:
         AUTHORIZED_CHATS.add(int(chats))
 except:
     pass
-
+ 
 try:
     BOT_TOKEN = getConfig('BOT_TOKEN')
-    DB_URI = getConfig('DATABASE_URL')
+    DB_URI = os.environ.get("DATABASE_URL")
     parent_id = getConfig('GDRIVE_FOLDER_ID')
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
-    if DOWNLOAD_DIR[-1] != '/' or DOWNLOAD_DIR[-1] != '\\':
+    if not DOWNLOAD_DIR.endswith("/"):
         DOWNLOAD_DIR = DOWNLOAD_DIR + '/'
     DOWNLOAD_STATUS_UPDATE_INTERVAL = int(getConfig('DOWNLOAD_STATUS_UPDATE_INTERVAL'))
     OWNER_ID = int(getConfig('OWNER_ID'))
@@ -103,7 +103,7 @@ try:
 except KeyError as e:
     LOGGER.error("One or more env variables missing! Exiting now")
     exit(1)
-
+ 
 try:
     conn = psycopg2.connect(DB_URI)
     cur = conn.cursor()
@@ -123,11 +123,10 @@ except Error as e:
 finally:
     cur.close()
     conn.close()
-
+ 
 LOGGER.info("Generating USER_SESSION_STRING")
-with Client(':memory:', api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN) as app:
-    USER_SESSION_STRING = app.export_session_string()
-
+app = Client(':memory:', api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN)
+ 
 #Generate Telegraph Token
 sname = ''.join(random.SystemRandom().choices(string.ascii_letters, k=8))
 LOGGER.info("Generating Telegraph Token using '" + sname + "' name")
@@ -135,7 +134,7 @@ telegraph = Telegraph()
 telegraph.create_account(short_name=sname)
 telegraph_token = telegraph.get_access_token()
 LOGGER.info("Telegraph Token Generated: '" + telegraph_token + "'")
-
+ 
 try:
     MEGA_API_KEY = getConfig('MEGA_API_KEY')
 except KeyError:
@@ -259,7 +258,7 @@ try:
     IMAGE_URL = getConfig('IMAGE_URL')
 except KeyError:
     IMAGE_URL = 'https://telegra.ph/file/db03910496f06094f1f7a.jpg'
-
+ 
 updater = tg.Updater(token=BOT_TOKEN, use_context=True)
 bot = updater.bot
 dispatcher = updater.dispatcher
