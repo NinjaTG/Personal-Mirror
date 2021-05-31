@@ -95,8 +95,10 @@ def log(update, context):
  
  
 @run_async
-def bot_help(update, context):
-    help_string_adm = f'''
+def help(update, context):
+    bot.send_message(update.message.chat_id,
+    reply_to_message_id=update.message.message_id,
+    text="""🤷🤷🤷🤷
 /{BotCommands.HelpCommand}: To get this message
  
 /{BotCommands.MirrorCommand} [download_url][magnet_link]: Start mirroring the link to Google Drive.
@@ -147,8 +149,7 @@ def bot_help(update, context):
  
 /weebhelp: Get help for Anime, Manga, and Character module.
  
-/stickerhelp: Get help for Stickers module.
-'''
+/stickerhelp: Get help for Stickers module."""
  
     help_string = f'''
 /{BotCommands.HelpCommand}: To get this message
