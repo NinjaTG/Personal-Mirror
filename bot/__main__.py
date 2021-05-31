@@ -197,7 +197,6 @@ def main():
         bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
         os.remove(".restartmsg")
  
-    bot.set_my_commands(botcmds)
  
     start_handler = CommandHandler(BotCommands.StartCommand, start)
     ping_handler = CommandHandler(BotCommands.PingCommand, ping,
