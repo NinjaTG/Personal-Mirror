@@ -62,7 +62,7 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
     LOGGER.info('UID: {} - UN: {} - MSG: {}'.format(update.message.chat.id, update.message.chat.username, update.message.text))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         if update.message.chat.type == "private" :
-            sendMessage(f"Hey 👋\n\n𝐓𝐡𝐢𝐬 𝐢𝐬 𝐚 𝐓𝐨𝐫𝐫𝐞𝐧𝐭 𝐌𝐢𝐫𝐫𝐨𝐫 𝐁𝐨𝐭.\n\n<b> Checkout Available commands ➩ /help<b>", context.bot, update)
+            sendMessage(f"<b>Bot is alive. Check /help</b>", context.bot, update)
         else :
             update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup)
     else :
